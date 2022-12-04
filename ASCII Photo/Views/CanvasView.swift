@@ -5,8 +5,9 @@ private let glyphs: [Character] = ["$", "@", "B", "%", "8", "&", "W", "M", "#", 
 struct CanvasView: View {
     @StateObject private var imageModel = ImageModel()
     
+    @State private var parsingImage = false
     @State private var showingGeneratedImage = false
-    @State private var parsedImage: String = ""
+    @State private var parsedImage = ""
     
     var body: some View {
         VStack {
@@ -20,15 +21,23 @@ struct CanvasView: View {
             if imageModel.chosenImage?.image != nil {
                 Button {
                     do {
+                        parsingImage = true
                         parsedImage = try imageModel.generateArt(with: glyphs)
+                        parsingImage = false
                         showingGeneratedImage = true
                     } catch {
                         print(error)
                     }
                 } label: {
                     HStack {
-                        Text("Generate art")
-                            .padding()
+                        if parsingImage {
+                            ProgressView()
+                                .progressViewStyle(.circular)
+                                .padding()
+                        } else {
+                            Text("Generate art")
+                                .padding()
+                        }
                     }
                     .frame(maxWidth: .infinity)
                 }
@@ -36,6 +45,7 @@ struct CanvasView: View {
                 .padding()
             }
         }
+        .disabled(parsingImage)
         .animation(.easeInOut(duration: 0.5), value: imageModel.chosenImage?.image)
         .sheet(isPresented: $showingGeneratedImage) {
             GeneratedImageView(isShowing: $showingGeneratedImage, parsed: parsedImage)

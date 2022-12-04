@@ -30,9 +30,3 @@ struct GeneratedImageView: View {
         }
     }
 }
-
-//struct GeneratedImageView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        GeneratedImageView(cgImage: cgImage)
-//    }
-//}
