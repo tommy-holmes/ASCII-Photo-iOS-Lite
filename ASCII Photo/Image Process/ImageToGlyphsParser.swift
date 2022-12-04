@@ -1,12 +1,6 @@
 import UIKit
 import Accelerate
 
-//struct PixelData {
-//    let location: CGPoint
-//    let greyscaleValue: Pixel_8
-//    let colorData: vImage.PixelBuffer<vImage.Planar8>
-//}
-
 struct GlyphParserConfigs {
     var glyphRowLength = 200
     var isColorEnabled = false
