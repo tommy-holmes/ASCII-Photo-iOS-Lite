@@ -6,6 +6,7 @@ struct CanvasView: View {
     @State private var parsingImage = false
     @State private var showingGeneratedImage = false
     @State private var parsedImage = ""
+    @State private var parseError: AlertError?
     
     var body: some View {
         VStack {
@@ -23,30 +24,30 @@ struct CanvasView: View {
                         parsingImage = false
                         showingGeneratedImage = true
                     } catch {
-                        print(error)
+                        parseError = .init(error)
                     }
                 } label: {
                     HStack {
                         if parsingImage {
                             ProgressView()
                                 .progressViewStyle(.circular)
-                                .padding()
                         } else {
                             Text("Generate art")
-                                .padding()
                         }
                     }
+                    .padding()
                     .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
-                .padding()
             }
         }
+        .padding()
         .disabled(parsingImage)
         .animation(.easeInOut(duration: 0.5), value: imageModel.chosenImage?.image)
         .sheet(isPresented: $showingGeneratedImage) {
             GeneratedImageView(isShowing: $showingGeneratedImage)
         }
+        .alert($parseError)
         .environmentObject(imageModel)
     }
 }

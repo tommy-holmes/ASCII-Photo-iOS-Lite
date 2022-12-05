@@ -75,7 +75,6 @@ struct SelectedImageView: View {
                 }
             }
         }
-        .padding()
         .onChange(of: selectedItem) { _ in
             model.update(selectedItem: selectedItem)
         }

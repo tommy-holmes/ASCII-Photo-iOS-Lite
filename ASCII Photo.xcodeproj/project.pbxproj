@@ -14,6 +14,7 @@
 		524C68282917095D00A355C6 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524C68272917095D00A355C6 /* CanvasView.swift */; };
 		A6A52439293BC88C0043BD08 /* GeneratedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A52438293BC88C0043BD08 /* GeneratedImageView.swift */; };
 		A6A5243B293E4B380043BD08 /* Glyphs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A5243A293E4B380043BD08 /* Glyphs.swift */; };
+		A6A5243E293E76790043BD08 /* AlertError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A5243D293E76790043BD08 /* AlertError.swift */; };
 		A6B0500E293B76BA00A5C82E /* ImageToGlyphsParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B0500D293B76BA00A5C82E /* ImageToGlyphsParser.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,7 @@
 		524C68272917095D00A355C6 /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		A6A52438293BC88C0043BD08 /* GeneratedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedImageView.swift; sourceTree = "<group>"; };
 		A6A5243A293E4B380043BD08 /* Glyphs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Glyphs.swift; sourceTree = "<group>"; };
+		A6A5243D293E76790043BD08 /* AlertError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertError.swift; sourceTree = "<group>"; };
 		A6B0500D293B76BA00A5C82E /* ImageToGlyphsParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageToGlyphsParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -75,6 +77,7 @@
 				524C68272917095D00A355C6 /* CanvasView.swift */,
 				A6A52438293BC88C0043BD08 /* GeneratedImageView.swift */,
 				524BD588290D73520000B04B /* SelectedImageView.swift */,
+				A6A5243F293E76F00043BD08 /* Modifiers */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -94,6 +97,14 @@
 				A6A5243A293E4B380043BD08 /* Glyphs.swift */,
 			);
 			path = Support;
+			sourceTree = "<group>";
+		};
+		A6A5243F293E76F00043BD08 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				A6A5243D293E76790043BD08 /* AlertError.swift */,
+			);
+			path = Modifiers;
 			sourceTree = "<group>";
 		};
 		A6B0500F293B76EB00A5C82E /* Image Process */ = {
@@ -179,6 +190,7 @@
 				A6A5243B293E4B380043BD08 /* Glyphs.swift in Sources */,
 				524C68242916D4A400A355C6 /* ImageModel.swift in Sources */,
 				524C68282917095D00A355C6 /* CanvasView.swift in Sources */,
+				A6A5243E293E76790043BD08 /* AlertError.swift in Sources */,
 				A6B0500E293B76BA00A5C82E /* ImageToGlyphsParser.swift in Sources */,
 				524BD587290D73520000B04B /* ASCII_PhotoApp.swift in Sources */,
 			);
