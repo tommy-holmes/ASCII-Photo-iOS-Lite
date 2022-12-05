@@ -38,6 +38,10 @@ final class ImageToGlyphsParser {
         parsed = generateArt()
     }
     
+    func invert() {
+        update(glyphs: glyphs.reversed())
+    }
+    
     private lazy var format: vImage_CGImageFormat = {
         guard let format = vImage_CGImageFormat(cgImage: cgImage) else {
             fatalError("unable to create format")

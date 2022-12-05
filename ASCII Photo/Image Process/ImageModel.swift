@@ -15,12 +15,18 @@ final class ImageModel: ObservableObject {
     }
     @Published private(set) var state: ImageState = .empty
     @Published private(set) var chosenImage: ChosenImage?
+    @Published private(set) var parsedImage: String = ""
     
-    func generateArt(with glyphs: Glyphs) throws -> String {
+    private var parser: ImageToGlyphsParser? {
+        didSet {
+            guard let parser else { return }
+            self.parsedImage = parser.parsed
+        }
+    }
+    
+    func generateArt(with glyphs: Glyphs) throws {
         guard let cgImage = chosenImage?.cgImage else { throw ParserError.noImage }
-        let parser = try ImageToGlyphsParser(image: cgImage, glyphs: glyphs)
-        
-        return parser.parsed
+        self.parser = try ImageToGlyphsParser(image: cgImage, glyphs: glyphs)
     }
     
     func update(chosenImage: ChosenImage?) {
@@ -43,6 +49,12 @@ final class ImageModel: ObservableObject {
     func reset() {
         chosenImage = nil
         state = .empty
+    }
+    
+    func invert() {
+        guard let parser else { return }
+        parser.invert()
+        parsedImage = parser.parsed
     }
     
     private func set(chosenImage: ChosenImage) {

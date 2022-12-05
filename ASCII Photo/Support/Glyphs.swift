@@ -8,6 +8,12 @@ struct Glyphs {
     }
 }
 
+extension Glyphs {
+    func reversed() -> Self {
+        .init(charaters: charaters.reversed())
+    }
+}
+
 extension Glyphs: Equatable {
     static func == (lhs: Glyphs, rhs: Glyphs) -> Bool {
         lhs.charaters == rhs.charaters
