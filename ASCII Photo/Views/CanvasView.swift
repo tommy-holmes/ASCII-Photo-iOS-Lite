@@ -1,7 +1,5 @@
 import SwiftUI
 
-private let glyphs: [Character] = ["$", "@", "B", "%", "8", "&", "W", "M", "#", "*", "o", "a", "h", "k", "b", "d", "p", "q", "w", "m", "Z", "O", "0", "Q", "L", "C", "J", "U", "Y", "X", "z", "c", "v", "u", "n", "x", "r", "j", "f", "t", "/", "\\", "|", ")", "(", "1", "}", "{", "]", "[", "?", "-", "_", "+", "~", ">", "<", "i", "!", "l", "I", ";", ":", ",", "\"", "^", "`", "\\", "\'", ".", " ", " ", " ", " ", " "]
-
 struct CanvasView: View {
     @StateObject private var imageModel = ImageModel()
     
@@ -22,7 +20,7 @@ struct CanvasView: View {
                 Button {
                     do {
                         parsingImage = true
-                        parsedImage = try imageModel.generateArt(with: glyphs)
+                        parsedImage = try imageModel.generateArt(with: .ascii)
                         parsingImage = false
                         showingGeneratedImage = true
                     } catch {

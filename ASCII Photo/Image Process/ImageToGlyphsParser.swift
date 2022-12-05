@@ -2,7 +2,7 @@ import UIKit
 import Accelerate
 
 struct GlyphParserConfigs {
-    var glyphRowLength = 200
+    var glyphRowLength = 300
     var isColorEnabled = false
 }
 
@@ -11,12 +11,12 @@ final class ImageToGlyphsParser {
     private(set) var parsed: String = ""
     
     private var cgImage: CGImage
-    private var glyphs: [Character]
+    private var glyphs: Glyphs
     private var cachedPixelData: [Pixel_8]?
     
     var configs: GlyphParserConfigs = .init()
     
-    init(image: CGImage, glyphs: [Character]) throws {
+    init(image: CGImage, glyphs: Glyphs) throws {
         self.cgImage = image
         self.glyphs = glyphs
         
@@ -32,7 +32,7 @@ final class ImageToGlyphsParser {
         parsed = generateArt()
     }
     
-    func update(glyphs: [Character]) {
+    func update(glyphs: Glyphs) {
         guard glyphs != self.glyphs else { return }
         self.glyphs = glyphs
         parsed = generateArt()
@@ -110,9 +110,9 @@ final class ImageToGlyphsParser {
         var asciiString = ""
         
         for (ix, pixel) in cachedPixelData.enumerated() {
-            let value = Float(pixel) / Float(256) * Float(glyphs.count)
-            let glyphIndex = glyphs.count - 1 - Int(value)
-            asciiString.append(glyphs[glyphIndex])
+            let value = Float(pixel) / Float(256) * Float(glyphs.charaters.count)
+            let glyphIndex = glyphs.charaters.count - 1 - Int(value)
+            asciiString.append(glyphs.charaters[glyphIndex])
             if ix % configs.glyphRowLength == 0 {
                 asciiString.append("\n")
             }

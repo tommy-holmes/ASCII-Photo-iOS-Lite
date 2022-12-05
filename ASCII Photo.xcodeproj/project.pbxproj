@@ -13,6 +13,7 @@
 		524C68242916D4A400A355C6 /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524C68232916D4A400A355C6 /* ImageModel.swift */; };
 		524C68282917095D00A355C6 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524C68272917095D00A355C6 /* CanvasView.swift */; };
 		A6A52439293BC88C0043BD08 /* GeneratedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A52438293BC88C0043BD08 /* GeneratedImageView.swift */; };
+		A6A5243B293E4B380043BD08 /* Glyphs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A5243A293E4B380043BD08 /* Glyphs.swift */; };
 		A6B0500E293B76BA00A5C82E /* ImageToGlyphsParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B0500D293B76BA00A5C82E /* ImageToGlyphsParser.swift */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +26,7 @@
 		524C68232916D4A400A355C6 /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
 		524C68272917095D00A355C6 /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		A6A52438293BC88C0043BD08 /* GeneratedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedImageView.swift; sourceTree = "<group>"; };
+		A6A5243A293E4B380043BD08 /* Glyphs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Glyphs.swift; sourceTree = "<group>"; };
 		A6B0500D293B76BA00A5C82E /* ImageToGlyphsParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageToGlyphsParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -61,6 +63,7 @@
 				524BD586290D73520000B04B /* ASCII_PhotoApp.swift */,
 				A68E1438293B75BF004277B0 /* Views */,
 				A6B0500F293B76EB00A5C82E /* Image Process */,
+				A6A5243C293E4CC80043BD08 /* Support */,
 				A68E1439293B763C004277B0 /* Resources */,
 			);
 			path = "ASCII Photo";
@@ -83,6 +86,14 @@
 				524BD58C290D73530000B04B /* ASCII_Photo.entitlements */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		A6A5243C293E4CC80043BD08 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				A6A5243A293E4B380043BD08 /* Glyphs.swift */,
+			);
+			path = Support;
 			sourceTree = "<group>";
 		};
 		A6B0500F293B76EB00A5C82E /* Image Process */ = {
@@ -165,6 +176,7 @@
 			files = (
 				A6A52439293BC88C0043BD08 /* GeneratedImageView.swift in Sources */,
 				524BD589290D73520000B04B /* SelectedImageView.swift in Sources */,
+				A6A5243B293E4B380043BD08 /* Glyphs.swift in Sources */,
 				524C68242916D4A400A355C6 /* ImageModel.swift in Sources */,
 				524C68282917095D00A355C6 /* CanvasView.swift in Sources */,
 				A6B0500E293B76BA00A5C82E /* ImageToGlyphsParser.swift in Sources */,

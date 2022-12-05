@@ -16,7 +16,7 @@ final class ImageModel: ObservableObject {
     @Published private(set) var state: ImageState = .empty
     @Published private(set) var chosenImage: ChosenImage?
     
-    func generateArt(with glyphs: [Character]) throws -> String {
+    func generateArt(with glyphs: Glyphs) throws -> String {
         guard let cgImage = chosenImage?.cgImage else { throw ParserError.noImage }
         let parser = try ImageToGlyphsParser(image: cgImage, glyphs: glyphs)
         
@@ -78,13 +78,6 @@ extension ImageModel {
         
         static var transferRepresentation: some TransferRepresentation {
             DataRepresentation(importedContentType: .image) { data in
-            #if canImport(AppKit)
-                guard let nsImage = NSImage(data: data) else {
-                    throw TransferError.importFailed
-                }
-                let image = Image(nsImage: nsImage)
-                return ChosenImage(image: image)
-            #elseif canImport(UIKit)
                 guard
                     let uiImage = UIImage(data: data),
                     let cgImage = uiImage.cgImage
@@ -93,9 +86,6 @@ extension ImageModel {
                 }
                 let image = Image(uiImage: uiImage)
                 return ChosenImage(image: image, cgImage: cgImage)
-            #else
-                throw TransferError.importFailed
-            #endif
             }
         }
     }
