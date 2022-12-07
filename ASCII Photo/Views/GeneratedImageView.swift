@@ -5,7 +5,7 @@ struct GeneratedImageView: View {
     
     @EnvironmentObject private var imageModel: ImageModel
     
-    @State private var textSize = 7.0
+    @State private var textSize = 3.0
     @State private var showingAlert = false
     @State private var inverted = false
     

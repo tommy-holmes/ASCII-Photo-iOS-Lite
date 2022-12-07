@@ -1,4 +1,5 @@
 import AVFoundation
+import UIKit
 
 enum CameraError: LocalizedError {
     case notAuthorized
@@ -10,11 +11,12 @@ enum CameraError: LocalizedError {
     }
 }
 
-final class Camera {
+final class Camera: NSObject {
     private let captureSession = AVCaptureSession()
     private var isCaptureSessionConfigured = false
     private var deviceInput: AVCaptureDeviceInput?
     private var photoOutput: AVCapturePhotoOutput?
+    private var videoOutput: AVCaptureVideoDataOutput?
     private var sessionQueue: DispatchQueue!
     
     private var allCaptureDevices: [AVCaptureDevice] {
@@ -57,7 +59,24 @@ final class Camera {
         }
     }
     
+    private var deviceOrientation: UIDeviceOrientation {
+        var orientation = UIDevice.current.orientation
+        if orientation == UIDeviceOrientation.unknown {
+            orientation = UIScreen.main.orientation
+        }
+        return orientation
+    }
+    
+    private var addToPreviewStream: ((CIImage) -> Void)?
     private var addToPhotoStream: ((AVCapturePhoto) -> Void)?
+    
+    lazy var previewStream: AsyncStream<CIImage> = {
+        AsyncStream { continuation in
+            addToPreviewStream = { ciImage in
+                continuation.yield(ciImage)
+            }
+        }
+    }()
     
     lazy var photoStream: AsyncStream<AVCapturePhoto> = {
         AsyncStream { continuation in
@@ -67,7 +86,9 @@ final class Camera {
         }
     }()
     
-    init() {
+    override init() {
+        super.init()
+        
         sessionQueue = DispatchQueue(label: "session queue")
         captureDevice = availableCaptureDevices.first ?? AVCaptureDevice.default(for: .video)
     }
@@ -84,8 +105,11 @@ final class Camera {
             return
         }
         
-        if await configuredCaptureSession() { // Potential issue if I need to use the DispatchQueue rather than async/await
-            captureSession.startRunning()
+        sessionQueue.async { [weak self] in
+            self?.configureCaptureSession { success in
+                guard success else { return }
+                self?.captureSession.startRunning()
+            }
         }
     }
     
@@ -96,6 +120,15 @@ final class Camera {
             sessionQueue.async {
                 self.captureSession.stopRunning()
             }
+        }
+    }
+    
+    func switchCaptureDevice() {
+        if let captureDevice = captureDevice, let index = availableCaptureDevices.firstIndex(of: captureDevice) {
+            let nextIndex = (index + 1) % availableCaptureDevices.count
+            self.captureDevice = availableCaptureDevices[nextIndex]
+        } else {
+            self.captureDevice = AVCaptureDevice.default(for: .video)
         }
     }
     
@@ -123,16 +156,21 @@ final class Camera {
         }
     }
     
-    private func configuredCaptureSession() async -> Bool {
+    private func configureCaptureSession(completionHandler: (_ success: Bool) -> Void) {
+        var success = false
+        
         self.captureSession.beginConfiguration()
         
-        defer { self.captureSession.commitConfiguration() }
+        defer {
+            self.captureSession.commitConfiguration()
+            completionHandler(success)
+        }
         
         guard
             let captureDevice = captureDevice,
             let deviceInput = try? AVCaptureDeviceInput(device: captureDevice)
         else {
-            return false
+            return
         }
         
         let photoOutput = AVCapturePhotoOutput()
@@ -140,26 +178,44 @@ final class Camera {
         
         captureSession.sessionPreset = .photo
         
+        let videoOutput = AVCaptureVideoDataOutput()
+        videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "VideoDataOutputQueue"))
+        
         guard captureSession.canAddInput(deviceInput) else {
             print("Unable to add device input to capture session.")
-            return false
+            return
         }
         guard captureSession.canAddOutput(photoOutput) else {
             print("Unable to add photo output to capture session.")
-            return false
+            return
+        }
+        guard captureSession.canAddOutput(videoOutput) else {
+            print("Unable to add video output to capture session.")
+            return
         }
         
         captureSession.addInput(deviceInput)
         captureSession.addOutput(photoOutput)
+        captureSession.addOutput(videoOutput)
         
         self.deviceInput = deviceInput
         self.photoOutput = photoOutput
+        self.videoOutput = videoOutput
         
         photoOutput.maxPhotoQualityPrioritization = .quality
         
         isCaptureSessionConfigured = true
-        
-        return true
+        success = true
+    }
+    
+    private func videoOrientationFor(_ deviceOrientation: UIDeviceOrientation) -> AVCaptureVideoOrientation? {
+        switch deviceOrientation {
+        case .portrait: return .portrait
+        case .portraitUpsideDown: return .portraitUpsideDown
+        case .landscapeLeft: return .landscapeRight
+        case .landscapeRight: return .landscapeLeft
+        default: return nil
+        }
     }
     
     private func deviceInputFor(device: AVCaptureDevice?) -> AVCaptureDeviceInput? {
@@ -215,10 +271,10 @@ final class Camera {
 }
 
 private final class PhotoCaptureProcessor: NSObject, AVCapturePhotoCaptureDelegate {
-    let completion: (AVCapturePhoto) -> Void
+    let completionHandler: (AVCapturePhoto) -> Void
     
-    init(completion: @escaping (AVCapturePhoto) -> Void) {
-        self.completion = completion
+    init(completionHandler: @escaping (AVCapturePhoto) -> Void) {
+        self.completionHandler = completionHandler
     }
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
@@ -226,6 +282,38 @@ private final class PhotoCaptureProcessor: NSObject, AVCapturePhotoCaptureDelega
             print(error)
             return
         }
-        completion(photo)
+        completionHandler(photo)
+    }
+}
+
+extension Camera: AVCaptureVideoDataOutputSampleBufferDelegate {
+    
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        guard let pixelBuffer = sampleBuffer.imageBuffer else { return }
+        
+        if connection.isVideoOrientationSupported,
+           let videoOrientation = videoOrientationFor(deviceOrientation) {
+            connection.videoOrientation = videoOrientation
+        }
+        
+        addToPreviewStream?(CIImage(cvPixelBuffer: pixelBuffer))
+    }
+}
+
+fileprivate extension UIScreen {
+    
+    var orientation: UIDeviceOrientation {
+        let point = coordinateSpace.convert(CGPoint.zero, to: fixedCoordinateSpace)
+        if point == CGPoint.zero {
+            return .portrait
+        } else if point.x != 0 && point.y != 0 {
+            return .portraitUpsideDown
+        } else if point.x == 0 && point.y != 0 {
+            return .landscapeRight
+        } else if point.x != 0 && point.y == 0 {
+            return .landscapeLeft
+        } else {
+            return .unknown
+        }
     }
 }

@@ -4,7 +4,8 @@ import PhotosUI
 struct SelectedImageView: View {
     @EnvironmentObject private var model: ImageModel
     
-    @State private var payloadInDropArea: Bool = false
+    @State private var payloadInDropArea = false
+    @State private var showingCameraView = false
     @State private var selectedItem: PhotosPickerItem?
     
     private let haptics = UIImpactFeedbackGenerator()
@@ -27,6 +28,13 @@ struct SelectedImageView: View {
                     VStack(spacing: 20) {
                         Label("Drag & Drop Image", systemImage: "square.and.arrow.down")
                             .foregroundStyle(.secondary)
+                        
+                        Button {
+                            showingCameraView = true
+                        } label: {
+                            Label("Take photo", systemImage: "camera")
+                        }
+
                         
                         PhotosPicker(selection: $selectedItem, matching: .images) {
                             Label("Select Image", systemImage: "photo")
@@ -75,8 +83,11 @@ struct SelectedImageView: View {
                 }
             }
         }
-        .onChange(of: selectedItem) { _ in
-            model.update(selectedItem: selectedItem)
+        .onChange(of: selectedItem) {
+            model.update(selectedItem: $0)
+        }
+        .fullScreenCover(isPresented: $showingCameraView) {
+            CameraView(isPresented: $showingCameraView)
         }
     }
 }

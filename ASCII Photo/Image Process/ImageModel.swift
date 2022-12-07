@@ -15,9 +15,15 @@ final class ImageModel: ObservableObject {
     }
     @Published private(set) var state: ImageState = .empty
     @Published private(set) var chosenImage: ChosenImage?
-    @Published private(set) var parsedImage: String = ""
+    @Published private(set) var parsedImage = ""
+    @Published var viewfinderImage: Image?
     
     let camera = Camera()
+    
+    init() {
+        Task { await handleCameraPreviews() }
+        Task { await handleCameraPhotos() }
+    }
     
     private var parser: ImageToGlyphsParser? {
         didSet {
@@ -45,6 +51,17 @@ final class ImageModel: ObservableObject {
             state = .loading(progress)
         } else {
             reset()
+        }
+    }
+    
+    func handleCameraPreviews() async {
+        let imageStream = camera.previewStream
+            .map { $0.image }
+        
+        for await image in imageStream {
+            Task { @MainActor in
+                viewfinderImage = image
+            }
         }
     }
     
@@ -123,5 +140,13 @@ extension ImageModel {
                 return ChosenImage(cgImage: cgImage)
             }
         }
+    }
+}
+
+fileprivate extension CIImage {
+    var image: Image? {
+        let ciContext = CIContext()
+        guard let cgImage = ciContext.createCGImage(self, from: self.extent) else { return nil }
+        return Image(decorative: cgImage, scale: 1, orientation: .up)
     }
 }
