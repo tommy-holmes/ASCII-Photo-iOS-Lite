@@ -3,7 +3,6 @@ import Accelerate
 
 struct GlyphParserConfigs {
     var glyphRowLength = 300
-    var isColorEnabled = false
 }
 
 final class ImageToGlyphsParser {

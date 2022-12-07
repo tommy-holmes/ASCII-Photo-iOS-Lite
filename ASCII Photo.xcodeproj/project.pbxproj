@@ -15,6 +15,7 @@
 		A6A52439293BC88C0043BD08 /* GeneratedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A52438293BC88C0043BD08 /* GeneratedImageView.swift */; };
 		A6A5243B293E4B380043BD08 /* Glyphs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A5243A293E4B380043BD08 /* Glyphs.swift */; };
 		A6A5243E293E76790043BD08 /* AlertError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A5243D293E76790043BD08 /* AlertError.swift */; };
+		A6A52441293FF4380043BD08 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A52440293FF4380043BD08 /* Camera.swift */; };
 		A6B0500E293B76BA00A5C82E /* ImageToGlyphsParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B0500D293B76BA00A5C82E /* ImageToGlyphsParser.swift */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,7 @@
 		A6A52438293BC88C0043BD08 /* GeneratedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedImageView.swift; sourceTree = "<group>"; };
 		A6A5243A293E4B380043BD08 /* Glyphs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Glyphs.swift; sourceTree = "<group>"; };
 		A6A5243D293E76790043BD08 /* AlertError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertError.swift; sourceTree = "<group>"; };
+		A6A52440293FF4380043BD08 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		A6B0500D293B76BA00A5C82E /* ImageToGlyphsParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageToGlyphsParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				524C68232916D4A400A355C6 /* ImageModel.swift */,
+				A6A52440293FF4380043BD08 /* Camera.swift */,
 				A6B0500D293B76BA00A5C82E /* ImageToGlyphsParser.swift */,
 			);
 			path = "Image Process";
@@ -193,6 +196,7 @@
 				A6A5243E293E76790043BD08 /* AlertError.swift in Sources */,
 				A6B0500E293B76BA00A5C82E /* ImageToGlyphsParser.swift in Sources */,
 				524BD587290D73520000B04B /* ASCII_PhotoApp.swift in Sources */,
+				A6A52441293FF4380043BD08 /* Camera.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,6 +329,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera permission needed";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -367,6 +372,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera permission needed";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

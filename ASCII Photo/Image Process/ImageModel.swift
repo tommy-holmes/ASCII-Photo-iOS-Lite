@@ -17,6 +17,8 @@ final class ImageModel: ObservableObject {
     @Published private(set) var chosenImage: ChosenImage?
     @Published private(set) var parsedImage: String = ""
     
+    let camera = Camera()
+    
     private var parser: ImageToGlyphsParser? {
         didSet {
             guard let parser else { return }
@@ -46,6 +48,17 @@ final class ImageModel: ObservableObject {
         }
     }
     
+    func handleCameraPhotos() async {
+        let unpackedStream = camera.photoStream
+            .compactMap { self.unpackPhoto($0) }
+        
+        for await image in unpackedStream {
+            Task { @MainActor in
+                chosenImage = image
+            }
+        }
+    }
+    
     func reset() {
         chosenImage = nil
         state = .empty
@@ -60,6 +73,12 @@ final class ImageModel: ObservableObject {
     private func set(chosenImage: ChosenImage) {
         self.state = .success(chosenImage.image)
         self.chosenImage = chosenImage
+    }
+    
+    private func unpackPhoto(_ photo: AVCapturePhoto) -> ChosenImage? {
+        guard let cgImage = photo.cgImageRepresentation() else { return nil }
+        
+        return ChosenImage(cgImage: cgImage)
     }
     
     private func loadTransferable(from imageSelection: PhotosPickerItem) -> Progress {
@@ -85,8 +104,13 @@ extension ImageModel {
     }
     
     struct ChosenImage: Transferable {
-        let image: Image
         let cgImage: CGImage
+        let image: Image
+        
+        init(cgImage: CGImage) {
+            self.cgImage = cgImage
+            self.image = Image(uiImage: UIImage(cgImage: cgImage))
+        }
         
         static var transferRepresentation: some TransferRepresentation {
             DataRepresentation(importedContentType: .image) { data in
@@ -96,8 +120,7 @@ extension ImageModel {
                 else {
                     throw TransferError.importFailed
                 }
-                let image = Image(uiImage: uiImage)
-                return ChosenImage(image: image, cgImage: cgImage)
+                return ChosenImage(cgImage: cgImage)
             }
         }
     }
