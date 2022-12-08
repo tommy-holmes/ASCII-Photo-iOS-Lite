@@ -3,7 +3,11 @@ import SwiftUI
 struct CameraView: View {
     @EnvironmentObject private var model: ImageModel
     
-    @Binding var isPresented: Bool
+    @Binding var isPresented: Bool {
+        didSet {
+            if !isPresented { model.camera.stop() }
+        }
+    }
     
     private static let barHeightFactor = 0.15
     
@@ -19,6 +23,7 @@ struct CameraView: View {
                     .overlay(alignment: .bottom) {
                         actionsView()
                             .frame(height: geo.size.height * Self.barHeightFactor)
+                            .padding()
                             .background(.black.opacity(0.75))
                     }
                     .overlay(alignment: .center)  {
@@ -36,7 +41,6 @@ struct CameraView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {
-                        model.camera.stop()
                         isPresented = false
                     } label: {
                         Text("Close")
@@ -51,34 +55,31 @@ struct CameraView: View {
     }
     
     private func actionsView() -> some View {
-        HStack {
+        HStack(alignment: .center) {
+            Spacer()
             
-            HStack {
-                Spacer()
-                
-                Button {
-                    model.camera.takePhoto()
-                    model.camera.stop()
-                    isPresented = false
-                } label: {
-                    Label {
-                        Text("Take photo")
-                    } icon: {
-                        ZStack {
-                            Circle()
-                                .strokeBorder(.white, lineWidth: 3)
-                                .frame(width: 62)
-                            Circle()
-                                .fill(.white)
-                                .frame(width: 50)
-                        }
+            Button {
+                model.camera.takePhoto()
+                isPresented = false
+            } label: {
+                Label {
+                    Text("Take photo")
+                } icon: {
+                    ZStack {
+                        Circle()
+                            .strokeBorder(.white, lineWidth: 3)
+                            .frame(width: 62)
+                        Circle()
+                            .fill(.white)
+                            .frame(width: 50)
                     }
-                    .labelStyle(.iconOnly)
                 }
+                .labelStyle(.iconOnly)
+                .offset(x: 25)
             }
             
             Spacer()
-             
+            
             Button {
                 model.camera.switchCaptureDevice()
             } label: {
@@ -87,8 +88,6 @@ struct CameraView: View {
                     .foregroundColor(.white)
                     .labelStyle(.iconOnly)
             }
-
-            Spacer()
         }
     }
 }

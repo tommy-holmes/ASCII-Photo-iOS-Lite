@@ -149,6 +149,13 @@ final class Camera: NSObject {
             }
             settings.photoQualityPrioritization = .balanced
             
+            if let photoOutputVideoConnection = photoOutput.connection(with: .video) {
+                if photoOutputVideoConnection.isVideoOrientationSupported,
+                   let videoOrientation = self.videoOrientationFor(self.deviceOrientation) {
+                    photoOutputVideoConnection.videoOrientation = videoOrientation
+                }
+            }
+            
             let processor = PhotoCaptureProcessor { photo in
                 self.addToPhotoStream?(photo)
             }
@@ -279,7 +286,7 @@ private final class PhotoCaptureProcessor: NSObject, AVCapturePhotoCaptureDelega
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         if let error {
-            print(error)
+            print("Error capturing photo: \(error.localizedDescription)")
             return
         }
         completionHandler(photo)
