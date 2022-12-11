@@ -7,7 +7,10 @@ final class ASCII_PhotoTests: XCTestCase {
     private let model = ImageModel()
 
     func testUpdateImage() throws {
+        let img = UIImage(named: "saturn.jpg")!.cgImage!
+        model.update(chosenImage: .init(cgImage: img))
         
+        XCTAssertEqual(img, model.chosenImage!.cgImage, "Failed to update chosen image.")
     }
 
     func testPerformanceExample() throws {
