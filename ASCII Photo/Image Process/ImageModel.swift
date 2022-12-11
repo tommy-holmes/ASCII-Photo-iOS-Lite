@@ -41,7 +41,7 @@ final class ImageModel: ObservableObject {
         if let chosenImage {
             set(chosenImage: chosenImage)
         } else {
-            state = .failure(TransferError.importFailed)
+            state = .failure(TransferError.noImage)
         }
     }
     
@@ -118,6 +118,7 @@ final class ImageModel: ObservableObject {
 extension ImageModel {
     enum TransferError: Error {
         case importFailed
+        case noImage
     }
     
     struct ChosenImage: Transferable {
