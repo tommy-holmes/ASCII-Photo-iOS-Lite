@@ -71,7 +71,8 @@ final class ImageModel: ObservableObject {
         
         for await image in unpackedStream {
             Task { @MainActor in
-                chosenImage = image
+                update(chosenImage: image)
+                camera.stop()
             }
         }
     }

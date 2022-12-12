@@ -3,12 +3,9 @@ import SwiftUI
 struct CameraView: View {
     @EnvironmentObject private var model: ImageModel
     
-    @Binding var isPresented: Bool {
-        didSet {
-            if !isPresented { model.camera.stop() }
-        }
-    }
+    @Binding var isPresented: Bool
     
+    @State private var cameraError: AlertError?
     private static let barHeightFactor = 0.15
     
     var body: some View {
@@ -36,8 +33,13 @@ struct CameraView: View {
                     .background(.black)
             }
             .task {
-                try? await model.camera.start()
+                do {
+                    try await model.camera.start()
+                } catch {
+                    cameraError = .init(error)
+                }
             }
+            .alert($cameraError)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {

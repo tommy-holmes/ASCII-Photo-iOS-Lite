@@ -156,10 +156,7 @@ final class Camera: NSObject {
                 }
             }
             
-            let processor = PhotoCaptureProcessor { photo in
-                self.addToPhotoStream?(photo)
-            }
-            photoOutput.capturePhoto(with: settings, delegate: processor)
+            photoOutput.capturePhoto(with: settings, delegate: self)
         }
     }
     
@@ -277,19 +274,13 @@ final class Camera: NSObject {
     }
 }
 
-private final class PhotoCaptureProcessor: NSObject, AVCapturePhotoCaptureDelegate {
-    let completionHandler: (AVCapturePhoto) -> Void
-    
-    init(completionHandler: @escaping (AVCapturePhoto) -> Void) {
-        self.completionHandler = completionHandler
-    }
-    
+extension Camera: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         if let error {
             print("Error capturing photo: \(error.localizedDescription)")
             return
         }
-        completionHandler(photo)
+        addToPhotoStream?(photo)
     }
 }
 
