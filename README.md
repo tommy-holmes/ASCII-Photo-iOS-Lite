@@ -7,7 +7,7 @@ A watered down version of my ASCII Photo iOS app. I intend to use this project t
 - iOS 16+ to allow for the use of newer APIs and tools such as [Transferable](https://developer.apple.com/documentation/coretransferable/transferable)
 - Mainly uses architecture that SwiftUI enforces, i.e. Models are closely tied to Views via `StateObject` which react to changes in `Published` values and propergated through environment objects, any lower level processing (such as the image generation algorithm) are isolated and _only_ the Model can directly interact with it
 - Implements async-await in the `Camera` object for assessing permissions, receiving image/video streams and processing captured photos. 
-- Type safety is utilised where ever possible to help with API design, code maintenance and mitigates the risk of introducing regressions, e.g. `generateArt(with glyphs: Glyphs)` uses the `Glyphs` type that has a private initialiser so the consumer _has_ no choice but to use the `static` constants (in this case `.ascii`) to call the method.  
+- Type safety is utilised where ever possible to help with API design, code maintenance and mitigates the risk of introducing regressions, e.g. `generateArt(with glyphs: Glyphs)` uses the `Glyphs` type that has a private initialiser so the consumer has _no choice_ but to use the `static` constants (in this case `.ascii`) to call the method.  
 
 ## Features
 - [x] Camera support
