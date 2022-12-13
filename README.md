@@ -1,7 +1,7 @@
 # ASCII-Photo-iOS-Lite
 A watered down version of my ASCII Photo iOS app. I intend to use this project to sell myself to teams of iOS engineers for their own assessment of my skills as a developer, basically a "tech test". 
 
-## Assessment info
+## Reviewer info
 - 100% SwiftUI
 - Unit tests included for the `ImageModel`
 - iOS 16+ to allow for the use of newer APIs and tools such as [Transferable](https://developer.apple.com/documentation/coretransferable/transferable)
