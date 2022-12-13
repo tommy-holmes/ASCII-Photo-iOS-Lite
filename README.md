@@ -4,17 +4,17 @@ A watered down version of my ASCII Photo iOS app. I intend to use this project t
 ## Assessment info
 - 100% SwiftUI
 - Unit tests included for the `ImageModel`
-- iOS 16+ (to allow for the use of newer APIs and tools such as [Transferable](https://developer.apple.com/documentation/coretransferable/transferable))
-- Mainly uses architecture that SwiftUI enforces, i.e. Models are closely tied to Views via `StateObject` which react to changes in `Published` values and propergated through the `environment` and any lower level processing (such as the image generation algorithm) are isolated and _only_ the Model can directly interact with it
-- Implements async-await in the `Camera` object for assessing permissions, recieving image streams and processing captured photos.  
+- iOS 16+ - to allow for the use of newer APIs and tools such as [Transferable](https://developer.apple.com/documentation/coretransferable/transferable)
+- Mainly uses architecture that SwiftUI enforces, i.e. Models are closely tied to Views via `StateObject` which react to changes in `Published` values and propergated through the `environment`, any lower level processing (such as the image generation algorithm) are isolated and _only_ the Model can directly interact with it
+- Implements async-await in the `Camera` object for assessing permissions, receiving image/video streams and processing captured photos. 
 
 ## Features
-- [x] Camera
-- [x] Photo library 
-- [x] Drag and drop
+- [x] Camera support
+- [x] Photo library support
+- [x] Drag and drop support
 - [x] Copy generated art to clipboard 
 - [x] Image preview
 - [x] Generated art inversion
 - [x] Light and dark mode support
-- [ ] Convert generated art to image
+- [ ] Convert generated art to an actual image
 - [ ] Better UI and UX for art preview
