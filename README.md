@@ -4,7 +4,7 @@ A watered down version of my ASCII Photo iOS app. I intend to use this project t
 ## Assessment info
 - 100% SwiftUI
 - Unit tests included for the `ImageModel`
-- iOS 16+ - to allow for the use of newer APIs and tools such as [Transferable](https://developer.apple.com/documentation/coretransferable/transferable)
+- iOS 16+ to allow for the use of newer APIs and tools such as [Transferable](https://developer.apple.com/documentation/coretransferable/transferable)
 - Mainly uses architecture that SwiftUI enforces, i.e. Models are closely tied to Views via `StateObject` which react to changes in `Published` values and propergated through the `environment`, any lower level processing (such as the image generation algorithm) are isolated and _only_ the Model can directly interact with it
 - Implements async-await in the `Camera` object for assessing permissions, receiving image/video streams and processing captured photos. 
 
@@ -18,3 +18,64 @@ A watered down version of my ASCII Photo iOS app. I intend to use this project t
 - [x] Light and dark mode support
 - [ ] Convert generated art to an actual image
 - [ ] Better UI and UX for art preview
+
+## Demo output
+Saturn in ASCII:
+
+```
+ 
+                                                                                                    
+                                                                                                    
+                                                                                  ."I<+-[[[?~,      
+                                                                              ,<[(/frxrf/\\\||]     
+                                                                          :+1/jjt\|)1(|rYXxft(/I    
+                                                                      \<}/ft\|\/frnunj1!lrLuj/\!    
+                                                                   "_)ff//jvUQZwqqqpppdp?^XUxt\.    
+                                                                "-\jjtrcJOZZOQLLLLLQ0ZOpO`nJrf_     
+                                                             ^_\jjjuYQZOQLJUUUYXUJCLLOZpC:Jcj)      
+                                                          .>|rrrvJOZ0CYvxt|((\rccXJLLOOh}}Qrt\      
+                                                        I1jxxvJOZQYn|[>I,^``^^:]czULQ0dU>Luf"       
+                                                 .'. `_fnxvJ0ZLct[i"\''''\\`^"^:xXULQqZ+Yzf"        
+                                         ',I<+-[]?-]/uczYQZLz/_,'          '\^^lvYLLww[vU/^         
+                                     \;>-]}11(1[[1jvcYLO0Yr(?><!,          .\^`(YJCwZ{vU('          
+                                  \l_]}11(()1[]\ncYCOOCu/{?[{()(1?i\       '``-XJCqL}zY[            
+                                ,~]}11()|)1]}tvXUQOQXj(]}|juvuxj/)1[<\     `\~XJLpX(Uvi             
+                              ,+{11()|||1](jcYC0OLvt11tvJLLJzuxjt\)}{?l   `\_XJ0qx/Ct^              
+                            `~]}1(||||1{)xzULOOJn\)tc0ww0JXcvvuxjt\|({[~`'`]UCm0/xJ?                
+                           l[}1()|||1{|nXULZ0Yr\/v0pkp0UXXXzcvunrf\(1{?-~;\JLwz\Xn:                 
+                          >]}1))|)1{|uYJQOQXj\rCphhd0CJJJYzzcvxf/)1}{{[?_>cm0jrU{                   
+                         ~]{1)||1{|uYJQZQzf\rQkakdmLLLCJUYXvxt\)(((1}}{][~]U/zr,                    
+                        <]{1))}]|uXUQOQzt(fLkabqwOLLLJJUXvr/\\|))(((1}}{][</X-                      
+                       :[]1)}](nXULZQzt(/JbhpmmmOLLCJUznj/\\\\|||)))(1}{[?~?^                       
+                       +]1}[1xzXLOQXt1|Xdhq00mmOQLCUcxf/\/\\\\\|||))(11{]-_`                        
+                      ^[{?]jzXJO0Yj((umkqQLOwwZ0LJcrt///\\\\/\\\||||)(1{[-+`                        
+                      I?-/zzUOOUx)1jLbpQCQmwwZQJcrt///////////\////|)1{]?_>                         
+                      :(vczQOCv|}/cmpOCLZmZO0Ccrt////\////////tt/|)(1{][_~I                         
+                     IxzvJZQXt{1rJmZCCLQLJJUzrt////////////tff/\|)(1}{[-~<.                         
+                   .|XrzO0Ux}[|uLZLUJJUYYUzxt////////tt//fff/||))(}{[?_>i^                          
+                  ~cufCZLz|?]\vCLYzXXXXzcxt///\/////tttfjf/\||)(1{]?-+<i"                           
+                `tYtvZ0Cr[_]|rXUvvcccvcnt\/\\\\\/////fjf/\|||(1}]?-+>il^                            
+               +Xu/LmCY[;~?1/nurxnuuuur\||\\\\\/////ff/||||(1}][-+~<iI'                             
+             '|Jtrm0Jc>\'^_1\f/ffjjrr/)))))|||\\\\/t/||))(1}][-+~>i!,                               
+            !vY)XqLJul\\   i{11)|//t)(((()))||||\//|))((1{][-+~><!:.                                
+           ?Uu(QwCJnI\\     `>[}1()1}}}11(())))|\|(1(}}{[?-+><il,.                                  
+         \)Cj|wZCUvl``.       `i-]{[]{{}}}1111()(}}{]][--+>i!:`                                     
+        :fC/|pOLUX-\^'          .:!<~+_?]{{]]]{{[[[??-+~<l,'                                        
+       !rC/)dOLJYj,"`'.         .`l]t\|}~-??---_++>il;^'                                            
+      <rJj]dZLLYz\"^"``\\''.'^;~1rU0ZOUnrx],                                                        
+     <rzz>ww0LCYcv-:^^^^";i_1fvCOZQYurrt?`                                                          
+    ljnQ<ubO0LLUzccr/|\/juzJQOZQXnrrf{;                                                             
+   ^/jUnIwmZOLLLJUXYUUUCLOZOCzxjjf1i                                                                
+   }fxL(;dwOO0QLLLQQOZmmQYujfjf(<.                                                                  
+  ;/txCx'(pdppppqqm0Czxt/tjt}i'                                                                     
+  _\tjvL/Ii1trrrf/\|\/ff|?;                                                                         
+  +\)tfxXXx\))|/tfjf|]i`                                                                            
+   }||\\\/frjft|{+I\                                                                                
+    :>-[[?+>!,\                                                                                     
+                                                                                                    
+                                                                                                   
+```
+
+From the source image:
+
+![saturn](https://user-images.githubusercontent.com/59975039/207397379-29ebfb93-05dc-4955-bb59-c82a16b56688.jpg)
