@@ -4,7 +4,7 @@ A watered down version of my ASCII Photo iOS app. I intend to use this project t
 ## Assessment info
 - 100% SwiftUI
 - Unit tests included for the `ImageModel`
-- iOS 16+ (to allow for the use of newer APIs and tools such as `Transferable`)
+- iOS 16+ (to allow for the use of newer APIs and tools such as [Transferable](https://developer.apple.com/documentation/coretransferable/transferable))
 - Mainly uses architecture that SwiftUI enforces, i.e. Models are closely tied to Views via `StateObject` which react to changes in `Published` values and propergated through the `environment` and any lower level processing (such as the image generation algorithm) are isolated and _only_ the Model can directly interact with it
 - Implements async-await in the `Camera` object for assessing permissions, recieving image steams and processing captured photos.  
 
