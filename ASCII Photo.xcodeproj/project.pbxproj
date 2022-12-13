@@ -41,6 +41,7 @@
 		524BD58C290D73530000B04B /* ASCII_Photo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ASCII_Photo.entitlements; sourceTree = "<group>"; };
 		524C68232916D4A400A355C6 /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
 		524C68272917095D00A355C6 /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
+		A62D45252948DEBC00AE4981 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A6803AFA294638EE00057E4A /* ASCII PhotoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ASCII PhotoTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6803AFC294638EE00057E4A /* ASCII_PhotoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASCII_PhotoTests.swift; sourceTree = "<group>"; };
 		A6803B0329463A2C00057E4A /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
@@ -74,6 +75,7 @@
 		524BD57A290D73520000B04B = {
 			isa = PBXGroup;
 			children = (
+				A62D45252948DEBC00AE4981 /* README.md */,
 				524BD585290D73520000B04B /* ASCII Photo */,
 				A6803AFB294638EE00057E4A /* ASCII PhotoTests */,
 				524BD584290D73520000B04B /* Products */,
