@@ -23,6 +23,10 @@ final class ImageModel: ObservableObject {
     init() {
         Task { await handleCameraPreviews() }
         Task { await handleCameraPhotos() }
+        
+        self.camera.takingPhotoHandler = {
+            self.state = .loading(.init())
+        }
     }
     
     private var parser: ImageToGlyphsParser? {
@@ -54,29 +58,6 @@ final class ImageModel: ObservableObject {
         }
     }
     
-    func handleCameraPreviews() async {
-        let imageStream = camera.previewStream
-            .map { $0.image }
-        
-        for await image in imageStream {
-            Task { @MainActor in
-                viewfinderImage = image
-            }
-        }
-    }
-    
-    func handleCameraPhotos() async {
-        let unpackedStream = camera.photoStream
-            .compactMap { self.unpackPhoto($0) }
-        
-        for await image in unpackedStream {
-            Task { @MainActor in
-                update(chosenImage: image)
-                camera.stop()
-            }
-        }
-    }
-    
     func reset() {
         chosenImage = nil
         state = .empty
@@ -97,6 +78,29 @@ final class ImageModel: ObservableObject {
         guard let cgImage = photo.cgImageRepresentation() else { return nil }
         
         return ChosenImage(cgImage: cgImage)
+    }
+    
+    private func handleCameraPreviews() async {
+        let imageStream = camera.previewStream
+            .map { $0.image }
+        
+        for await image in imageStream {
+            Task { @MainActor in
+                viewfinderImage = image
+            }
+        }
+    }
+    
+    private func handleCameraPhotos() async {
+        let unpackedStream = camera.photoStream
+            .compactMap { self.unpackPhoto($0) }
+        
+        for await image in unpackedStream {
+            Task { @MainActor in
+                update(chosenImage: image)
+                camera.stop()
+            }
+        }
     }
     
     private func loadTransferable(from imageSelection: PhotosPickerItem) -> Progress {

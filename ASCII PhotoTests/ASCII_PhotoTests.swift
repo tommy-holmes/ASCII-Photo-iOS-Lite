@@ -34,26 +34,28 @@ final class ASCII_PhotoTests: XCTestCase {
         }
     }
     
-//    func testUpdatePickerItem() {
-//        let actual = UIImage(named: "saturn.jpg")!.cgImage!
-//        let intial = model.chosenImage?.cgImage
-//
-//        model.update(selectedItem: .some(.init(itemIdentifier: "")))
-//        let updated = model.chosenImage!.cgImage
-//        
-//        XCTAssertNotEqual(intial, updated, "Failed to update chosen image.")
-//        XCTAssertEqual(actual, updated, "Failed to update to chosen image.")
-//        switch model.state {
-//        case .success:
-//            XCTAssert(true)
-//        default:
-//            XCTFail("State not updated.")
-//        }
-//    }
+    func testUpdatePickerItem() {
+        let actual = UIImage(named: "saturn.jpg")!.cgImage!
+        let intial = model.chosenImage?.cgImage
+
+        model.update(selectedItem: .some(.init(itemIdentifier: "saturn.jpg")))
+        let updated = model.chosenImage!.cgImage
+
+        XCTAssertNotEqual(intial, updated, "Failed to update chosen image.")
+        XCTAssertEqual(actual, updated, "Failed to update to chosen image.")
+        switch model.state {
+        case .success:
+            XCTAssert(true)
+        default:
+            XCTFail("State not updated.")
+        }
+    }
     
-    func testUpdatePickerItemImportFailed() {
+    func testUpdatePickerItemNoItem() {
         model.update(selectedItem: nil)
+        let updated = model.chosenImage?.cgImage
         
+        XCTAssertNil(updated, "Chosen image was not removed.")
         switch model.state {
         case .empty:
             XCTAssert(true)

@@ -86,6 +86,8 @@ final class Camera: NSObject {
         }
     }()
     
+    var takingPhotoHandler: (() -> Void)?
+    
     override init() {
         super.init()
         
@@ -157,6 +159,9 @@ final class Camera: NSObject {
             }
             
             photoOutput.capturePhoto(with: settings, delegate: self)
+            DispatchQueue.main.async {
+                self.takingPhotoHandler?()
+            }
         }
     }
     
