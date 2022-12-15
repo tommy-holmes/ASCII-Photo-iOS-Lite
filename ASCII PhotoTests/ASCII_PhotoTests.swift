@@ -34,21 +34,16 @@ final class ASCII_PhotoTests: XCTestCase {
         }
     }
     
-    func testUpdatePickerItem() {
-        let actual = UIImage(named: "saturn.jpg")!.cgImage!
-        let intial = model.chosenImage?.cgImage
-
-        model.update(selectedItem: .some(.init(itemIdentifier: "saturn.jpg")))
-        let updated = model.chosenImage!.cgImage
-
-        XCTAssertNotEqual(intial, updated, "Failed to update chosen image.")
-        XCTAssertEqual(actual, updated, "Failed to update to chosen image.")
-        switch model.state {
-        case .success:
-            XCTAssert(true)
-        default:
-            XCTFail("State not updated.")
-        }
+    func testInvert() throws {
+        model.update(chosenImage: .init(cgImage: UIImage(named: "saturn.jpg")!.cgImage!))
+        XCTAssertNotNil(model.chosenImage)
+        try model.generateArt(with: .ascii)
+        let inital = model.parsedImage
+        
+        model.invert()
+        let inverted = model.parsedImage
+        
+        XCTAssertNotEqual(inital, inverted, "Parsed image not inverted.")
     }
     
     func testUpdatePickerItemNoItem() {
