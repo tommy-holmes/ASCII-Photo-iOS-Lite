@@ -21,7 +21,7 @@ A watered down version of my ASCII Photo iOS app. I intend to use this project t
 - [ ] Better UI and UX for art preview
 
 ## Demo output
-Saturn in ASCII:
+### Saturn in ASCII
 
 ```
  
@@ -77,10 +77,10 @@ Saturn in ASCII:
                                                                                                    
 ```
 
-Preview image:
+### Preview image
 
 <img width="928" alt="Screenshot 2022-12-15 at 21 52 19" src="https://user-images.githubusercontent.com/59975039/207974940-671916f9-f622-4a80-9155-8f7b95092569.png">
 
-From the source image:
+### From the source image
 
 ![saturn](https://user-images.githubusercontent.com/59975039/207397379-29ebfb93-05dc-4955-bb59-c82a16b56688.jpg)
