@@ -146,9 +146,9 @@ final class Camera: NSObject {
             let isFlashAvaliable = self.deviceInput?.device.isFlashAvailable ?? false
             settings.flashMode = isFlashAvaliable ? .auto : .off
             
-            if let previewPhotoPixelFormatType = settings.availablePreviewPhotoPixelFormatTypes.first {
-                settings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewPhotoPixelFormatType]
-            }
+//            if let previewPhotoPixelFormatType = settings.availablePreviewPhotoPixelFormatTypes.first {
+//                settings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewPhotoPixelFormatType]
+//            }
             settings.photoQualityPrioritization = .balanced
             
             if let photoOutputVideoConnection = photoOutput.connection(with: .video) {

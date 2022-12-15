@@ -25,6 +25,7 @@ final class ImageModel: ObservableObject {
         Task { await handleCameraPhotos() }
         
         self.camera.takingPhotoHandler = {
+            assert(Thread.isMainThread)
             self.state = .loading(.init())
         }
     }
