@@ -68,7 +68,7 @@ final class ImageModel: ObservableObject {
         parsedImageString = parser.generateArtString()
     }
     
-    func drawImage()  -> GeneratedImage {
+    func drawImage() -> GeneratedImage {
         let uiImage = parser.drawImage(from: parsedImageString)
         return GeneratedImage(uiImage: uiImage)
     }

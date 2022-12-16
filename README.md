@@ -17,7 +17,7 @@ A watered down version of my ASCII Photo iOS app. I intend to use this project t
 - [x] Image preview
 - [x] Generated art inversion
 - [x] Light and dark mode support
-- [ ] Convert generated art to an actual image
+- [x] Convert generated art to an actual image
 - [ ] Better UI and UX for art preview
 
 ## Demo output

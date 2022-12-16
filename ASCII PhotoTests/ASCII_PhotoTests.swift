@@ -63,6 +63,13 @@ final class ASCII_PhotoTests: XCTestCase {
         XCTAssertNotEqual(inital, inverted, "Parsed image not inverted.")
     }
     
+    func testDrawImage() throws {
+        model.update(chosenImage: .init(cgImage: UIImage(named: "saturn.jpg")!.cgImage!))
+        XCTAssertNotNil(model.chosenImage)
+        try model.generateArt(with: .ascii)
+        XCTAssertNotNil(model.drawImage(), "Image not drawn")
+    }
+    
     func testUpdatePickerItemNoItem() {
         model.update(selectedItem: nil)
         let updated = model.chosenImage?.cgImage
