@@ -1,5 +1,5 @@
 # ASCII-Photo-iOS-Lite
-A watered down version of my ASCII Photo iOS app. I intend to use this project to sell myself to teams of iOS engineers for their own assessment of my skills as a developer, basically a "tech test". 
+A watered down version of my ASCII Photo iOS app. I intend to use this project to sell myself to teams of iOS engineers for their own assessment of my skills as a developer, basically a "tech test". Please also bare in mind that while this is "reviewable" there is some code that might be unused yet, this is intentional as it is a side project of mine and is still being worked on (mainly additive). 
 
 ## Reviewer info
 - 100% SwiftUI
