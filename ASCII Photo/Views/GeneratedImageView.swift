@@ -6,7 +6,6 @@ struct GeneratedImageView: View {
     @EnvironmentObject private var imageModel: ImageModel
     
     @State private var textSize = 2.0
-    @State private var showingAlert = false
     @State private var inverted = false
     
     var body: some View {
@@ -17,6 +16,9 @@ struct GeneratedImageView: View {
                         .font(.system(size: textSize))
                         .monospaced()
                 }
+            }
+            .contextMenu {
+                ShareLink("Copy Text", item: imageModel.parsedImageString)
             }
             
             VStack(spacing: 20) {
@@ -35,19 +37,10 @@ struct GeneratedImageView: View {
                     }
                 }
                 ToolbarItem(placement: .primaryAction) {
-                    Button {
-                        UIPasteboard.general.string = imageModel.parsedImageString
-                        showingAlert = true
-                    } label: {
-                        Image(systemName: "square.and.arrow.up")
-                    }
-                }
-            }
-            .alert("Copied to clipboard", isPresented: $showingAlert) {
-                Button("Okay") {
-                    showingAlert = false
+                    ShareLink(item: imageModel.drawImage(), preview: .init("ASCII Image"))
                 }
             }
         }
+        .interactiveDismissDisabled()
     }
 }

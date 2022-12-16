@@ -4,6 +4,7 @@ import CoreTransferable
 
 enum ParserError: Error {
     case noImage
+    case drawFailed
 }
 
 final class ImageModel: ObservableObject {
@@ -14,13 +15,10 @@ final class ImageModel: ObservableObject {
         case failure(Error)
     }
     @Published private(set) var state: ImageState = .empty
-    @Published private(set) var chosenImage: ChosenImage? {
-        didSet { parsedImage = nil }
-    }
+    @Published private(set) var chosenImage: ChosenImage?
     @Published private(set) var parsedImageString = ""
     @Published var viewfinderImage: Image?
     
-    private var parsedImage: UIImage?
     private var parser = ImageToGlyphsParser()
     
     let camera = Camera()
@@ -70,8 +68,9 @@ final class ImageModel: ObservableObject {
         parsedImageString = parser.generateArtString()
     }
     
-    func drawImage() {
-        parsedImage = parser.drawImage(from: parsedImageString)
+    func drawImage()  -> GeneratedImage {
+        let uiImage = parser.drawImage(from: parsedImageString)
+        return GeneratedImage(uiImage: uiImage)
     }
     
     private func set(chosenImage: ChosenImage) {
@@ -150,6 +149,22 @@ extension ImageModel {
                 }
                 return ChosenImage(cgImage: cgImage)
             }
+        }
+    }
+}
+
+extension ImageModel {
+    struct GeneratedImage: Transferable {
+        let uiImage: UIImage
+        let image: Image
+        
+        init(uiImage: UIImage) {
+            self.uiImage = uiImage
+            self.image = Image(uiImage: uiImage)
+        }
+        
+        static var transferRepresentation: some TransferRepresentation {
+            ProxyRepresentation(exporting: \.image)
         }
     }
 }
