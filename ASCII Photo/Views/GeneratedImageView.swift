@@ -5,7 +5,7 @@ struct GeneratedImageView: View {
     
     @EnvironmentObject private var imageModel: ImageModel
     
-    @State private var textSize = 3.0
+    @State private var textSize = 2.0
     @State private var showingAlert = false
     @State private var inverted = false
     
@@ -19,10 +19,8 @@ struct GeneratedImageView: View {
                 }
             }
             
-            VStack {
-                Slider(value: $textSize, in: 1...13, step: 0.5) {
-                    Text("Zoom")
-                }
+            VStack(spacing: 20) {
+                Stepper("Zoom", value: $textSize, in: 1...13, step: 0.5)
                 
                 Toggle("Invert", isOn: $inverted)
                     .onChange(of: inverted) { _ in

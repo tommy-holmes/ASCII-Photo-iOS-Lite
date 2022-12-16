@@ -51,8 +51,8 @@ final class ImageToGlyphsParser {
     }
     
     func drawImage(from string: String) -> UIImage {
-        let fgColor = configs.perferredScheme == .light ? UIColor.black : UIColor.white
-        let bgColor = configs.perferredScheme == .light ? UIColor.white : UIColor.black
+        let fgColor: UIColor = configs.perferredScheme == .light ? .black : .white
+        let bgColor: UIColor = configs.perferredScheme == .light ? .white : .black
         
         let attributes = [
             NSAttributedString.Key.font: UIFont.monospacedSystemFont(ofSize: 5, weight: .regular),
