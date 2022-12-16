@@ -16,6 +16,7 @@ final class ImageToGlyphsParser {
     private var cgImage: CGImage?
     private var glyphs: Glyphs = .ascii
     private var cachedPixelData: [Pixel_8]!
+    private var format: vImage_CGImageFormat!
     
     var configs = GlyphParserConfigs()
     
@@ -67,13 +68,6 @@ final class ImageToGlyphsParser {
             attrText.draw(at: .zero)
         }
     }
-    
-    private lazy var format: vImage_CGImageFormat = {
-        guard let cgImage, let format = vImage_CGImageFormat(cgImage: cgImage) else {
-            fatalError("unable to create format")
-        }
-        return format
-    }()
     
     private func updateFormat(for image: CGImage) {
         guard let format = vImage_CGImageFormat(cgImage: image) else {
