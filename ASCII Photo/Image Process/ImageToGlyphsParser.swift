@@ -2,15 +2,16 @@ import UIKit
 import Accelerate
 
 struct GlyphParserConfigs {
-    var glyphRowLength = 300
-}
-
-final class ImageToGlyphsParser {
-    
     enum Scheme {
         case light
         case dark
     }
+    
+    var glyphRowLength = 300
+    var perferredScheme: Scheme = .dark
+}
+
+final class ImageToGlyphsParser {
     
     private(set) lazy var parsed: String = {
         generateArt()
@@ -19,13 +20,15 @@ final class ImageToGlyphsParser {
     private var glyphs: Glyphs = .ascii
     private var cachedPixelData: [Pixel_8]!
     
-    var configs: GlyphParserConfigs = .init()
+    var configs = GlyphParserConfigs()
     
-    func update(image: CGImage) throws {
+    func update(image: CGImage, glyphs: Glyphs? = nil) throws {
         guard image != cgImage else { return }
         cgImage = image
         updateFormat(for: image)
         cachedPixelData = try attributedPixelData(from: try sourceBuffer(for: image))
+        
+        if let glyphs { self.glyphs = glyphs }
         parsed = generateArt()
     }
     
@@ -39,23 +42,9 @@ final class ImageToGlyphsParser {
         update(glyphs: glyphs.reversed())
     }
     
-    private func generateArt() -> String {
-        var asciiString = ""
-        
-        for (ix, pixel) in cachedPixelData.enumerated() {
-            let value = Float(pixel) / Float(256) * Float(glyphs.charaters.count)
-            let glyphIndex = glyphs.charaters.count - 1 - Int(value)
-            asciiString.append(glyphs.charaters[glyphIndex])
-            if ix % configs.glyphRowLength == 0 {
-                asciiString.append("\n")
-            }
-        }
-        return asciiString
-    }
-    
-    func drawImage(scheme: Scheme) -> UIImage {
-        let fgColor = scheme == .light ? UIColor.black : UIColor.white
-        let bgColor = scheme == .light ? UIColor.white : UIColor.black
+    func drawImage() -> UIImage {
+        let fgColor = configs.perferredScheme == .light ? UIColor.black : UIColor.white
+        let bgColor = configs.perferredScheme == .light ? UIColor.white : UIColor.black
         
         let attributes = [
             NSAttributedString.Key.font: UIFont.monospacedSystemFont(ofSize: 5, weight: .regular),
@@ -136,5 +125,19 @@ final class ImageToGlyphsParser {
             }
         }
         return destination.array
+    }
+    
+    private func generateArt() -> String {
+        var asciiString = ""
+        
+        for (ix, pixel) in cachedPixelData.enumerated() {
+            let value = Float(pixel) / Float(256) * Float(glyphs.charaters.count)
+            let glyphIndex = glyphs.charaters.count - 1 - Int(value)
+            asciiString.append(glyphs.charaters[glyphIndex])
+            if ix % configs.glyphRowLength == 0 {
+                asciiString.append("\n")
+            }
+        }
+        return asciiString
     }
 }
