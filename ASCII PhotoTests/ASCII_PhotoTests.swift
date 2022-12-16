@@ -55,10 +55,10 @@ final class ASCII_PhotoTests: XCTestCase {
         model.update(chosenImage: .init(cgImage: UIImage(named: "saturn.jpg")!.cgImage!))
         XCTAssertNotNil(model.chosenImage)
         try model.generateArt(with: .ascii)
-        let inital = model.parsedImage
+        let inital = model.parsedImageString
         
         model.invert()
-        let inverted = model.parsedImage
+        let inverted = model.parsedImageString
         
         XCTAssertNotEqual(inital, inverted, "Parsed image not inverted.")
     }

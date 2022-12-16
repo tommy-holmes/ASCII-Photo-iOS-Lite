@@ -7,26 +7,24 @@ struct GlyphParserConfigs {
 
 final class ImageToGlyphsParser {
     
-    private(set) var parsed: String = ""
+    enum Scheme {
+        case light
+        case dark
+    }
     
-    private var cgImage: CGImage
-    private var glyphs: Glyphs
-    private var cachedPixelData: [Pixel_8]?
+    private(set) lazy var parsed: String = {
+        generateArt()
+    }()
+    private var cgImage: CGImage?
+    private var glyphs: Glyphs = .ascii
+    private var cachedPixelData: [Pixel_8]!
     
     var configs: GlyphParserConfigs = .init()
-    
-    init(image: CGImage, glyphs: Glyphs) throws {
-        self.cgImage = image
-        self.glyphs = glyphs
-        
-        cachedPixelData = try attributedPixelData(from: try sourceBuffer(for: image))
-        parsed = generateArt()
-    }
     
     func update(image: CGImage) throws {
         guard image != cgImage else { return }
         cgImage = image
-        updateFormat(for: cgImage)
+        updateFormat(for: image)
         cachedPixelData = try attributedPixelData(from: try sourceBuffer(for: image))
         parsed = generateArt()
     }
@@ -41,15 +39,48 @@ final class ImageToGlyphsParser {
         update(glyphs: glyphs.reversed())
     }
     
+    private func generateArt() -> String {
+        var asciiString = ""
+        
+        for (ix, pixel) in cachedPixelData.enumerated() {
+            let value = Float(pixel) / Float(256) * Float(glyphs.charaters.count)
+            let glyphIndex = glyphs.charaters.count - 1 - Int(value)
+            asciiString.append(glyphs.charaters[glyphIndex])
+            if ix % configs.glyphRowLength == 0 {
+                asciiString.append("\n")
+            }
+        }
+        return asciiString
+    }
+    
+    func drawImage(scheme: Scheme) -> UIImage {
+        let fgColor = scheme == .light ? UIColor.black : UIColor.white
+        let bgColor = scheme == .light ? UIColor.white : UIColor.black
+        
+        let attributes = [
+            NSAttributedString.Key.font: UIFont.monospacedSystemFont(ofSize: 5, weight: .regular),
+            NSAttributedString.Key.foregroundColor: fgColor,
+        ]
+        let attrText = NSAttributedString(string: parsed, attributes: attributes)
+        let textSize = attrText.size()
+        let renderer = UIGraphicsImageRenderer(size: textSize)
+        
+        return renderer.image { context in
+            bgColor.setFill()
+            context.fill(.init(origin: .zero, size: textSize))
+            attrText.draw(at: .zero)
+        }
+    }
+    
     private lazy var format: vImage_CGImageFormat = {
-        guard let format = vImage_CGImageFormat(cgImage: cgImage) else {
+        guard let cgImage, let format = vImage_CGImageFormat(cgImage: cgImage) else {
             fatalError("unable to create format")
         }
         return format
     }()
     
     private func updateFormat(for image: CGImage) {
-        guard let format = vImage_CGImageFormat(cgImage: cgImage) else {
+        guard let format = vImage_CGImageFormat(cgImage: image) else {
             fatalError("unable to create format")
         }
         self.format = format
@@ -57,9 +88,9 @@ final class ImageToGlyphsParser {
     
     private func sourceBuffer(for image: CGImage) throws -> vImage_Buffer {
         let width = configs.glyphRowLength
-        let height = width * cgImage.height / cgImage.width / 2
+        let height = width * image.height / image.width / 2
         
-        var sourceImageBuffer = try vImage_Buffer(cgImage: cgImage, format: format)
+        var sourceImageBuffer = try vImage_Buffer(cgImage: image, format: format)
         var scaledBuffer = try vImage_Buffer(width: width, height: height, bitsPerPixel: format.bitsPerPixel)
         
         defer { sourceImageBuffer.free() }
@@ -105,21 +136,5 @@ final class ImageToGlyphsParser {
             }
         }
         return destination.array
-    }
-    
-    private func generateArt() -> String {
-        guard let cachedPixelData else { return "" }
-        
-        var asciiString = ""
-        
-        for (ix, pixel) in cachedPixelData.enumerated() {
-            let value = Float(pixel) / Float(256) * Float(glyphs.charaters.count)
-            let glyphIndex = glyphs.charaters.count - 1 - Int(value)
-            asciiString.append(glyphs.charaters[glyphIndex])
-            if ix % configs.glyphRowLength == 0 {
-                asciiString.append("\n")
-            }
-        }
-        return asciiString
     }
 }

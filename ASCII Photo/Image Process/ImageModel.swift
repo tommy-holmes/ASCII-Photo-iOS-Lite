@@ -15,8 +15,11 @@ final class ImageModel: ObservableObject {
     }
     @Published private(set) var state: ImageState = .empty
     @Published private(set) var chosenImage: ChosenImage?
-    @Published private(set) var parsedImage = ""
+    @Published private(set) var parsedImage: UIImage?
+    @Published private(set) var parsedImageString = ""
     @Published var viewfinderImage: Image?
+    
+    private var parser = ImageToGlyphsParser()
     
     let camera = Camera()
     
@@ -30,16 +33,11 @@ final class ImageModel: ObservableObject {
         }
     }
     
-    private var parser: ImageToGlyphsParser? {
-        didSet {
-            guard let parser else { return }
-            self.parsedImage = parser.parsed
-        }
-    }
-    
     func generateArt(with glyphs: Glyphs) throws {
         guard let cgImage = chosenImage?.cgImage else { throw ParserError.noImage }
-        self.parser = try ImageToGlyphsParser(image: cgImage, glyphs: glyphs)
+        
+        try parser.update(image: cgImage)
+        self.parsedImageString = parser.parsed
     }
     
     func update(chosenImage: ChosenImage?) {
@@ -65,10 +63,14 @@ final class ImageModel: ObservableObject {
     }
     
     func invert() {
-        guard let parser else { return }
         parser.invert()
-        parsedImage = parser.parsed
+        parsedImageString = parser.parsed
     }
+    
+//    func drawImage(scheme: ImageToGlyphsParser.Scheme) -> UIImage {
+//        guard let parser else { return }
+//        return parser.drawImage(scheme: scheme)
+//    }
     
     private func set(chosenImage: ChosenImage) {
         self.state = .success(chosenImage.image)

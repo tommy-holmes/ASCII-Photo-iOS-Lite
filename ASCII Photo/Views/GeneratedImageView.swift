@@ -13,7 +13,7 @@ struct GeneratedImageView: View {
         NavigationStack {
             ScrollView(.horizontal, showsIndicators: false) {
                 ScrollView(showsIndicators: false) {
-                    Text(imageModel.parsedImage)
+                    Text(imageModel.parsedImageString)
                         .font(.system(size: textSize))
                         .monospaced()
                 }
@@ -38,7 +38,7 @@ struct GeneratedImageView: View {
                 }
                 ToolbarItem(placement: .primaryAction) {
                     Button {
-                        UIPasteboard.general.string = imageModel.parsedImage
+                        UIPasteboard.general.string = imageModel.parsedImageString
                         showingAlert = true
                     } label: {
                         Image(systemName: "square.and.arrow.up")
