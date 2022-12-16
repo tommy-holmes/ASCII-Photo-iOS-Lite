@@ -37,9 +37,10 @@ final class ImageModel: ObservableObject {
     
     func generateArt(with glyphs: Glyphs) throws {
         guard let cgImage = chosenImage?.cgImage else { throw ParserError.noImage }
-        
-        try parser.update(image: cgImage, glyphs: glyphs)
-        self.parsedImageString = parser.parsed
+
+        try parser.update(image: cgImage)
+        parser.update(glyphs: glyphs)
+        parsedImageString = parser.generateArtString()
     }
     
     func update(chosenImage: ChosenImage?) {
@@ -66,11 +67,11 @@ final class ImageModel: ObservableObject {
     
     func invert() {
         parser.invert()
-        parsedImageString = parser.parsed
+        parsedImageString = parser.generateArtString()
     }
     
     func drawImage() {
-        parsedImage = parser.drawImage()
+        parsedImage = parser.drawImage(from: parsedImageString)
     }
     
     private func set(chosenImage: ChosenImage) {
