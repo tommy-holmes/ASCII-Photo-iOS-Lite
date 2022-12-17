@@ -1,45 +1,40 @@
 import SwiftUI
 
 struct GeneratedImageView: View {
-    @Binding var isShowing: Bool
+    @Environment(\.dismiss) private var dismiss
     
     @EnvironmentObject private var imageModel: ImageModel
     
-    @State private var textSize = 2.0
     @State private var inverted = false
     
     var body: some View {
         NavigationStack {
-            ScrollView(.horizontal, showsIndicators: false) {
-                ScrollView(showsIndicators: false) {
-                    Text(imageModel.parsedImageString)
-                        .font(.system(size: textSize))
-                        .monospaced()
+            imageModel.parsedImage?.image
+                .resizable()
+                .scaledToFit()
+                .contextMenu {
+                    ShareLink("Copy Text", item: imageModel.parsedImageString)
                 }
-            }
-            .contextMenu {
-                ShareLink("Copy Text", item: imageModel.parsedImageString)
-            }
             
-            VStack(spacing: 20) {
-                Stepper("Zoom", value: $textSize, in: 1...13, step: 0.5)
-                
-                Toggle("Invert", isOn: $inverted)
-                    .onChange(of: inverted) { _ in
-                        imageModel.invert()
+            Spacer()
+            
+            Toggle("Invert", isOn: $inverted)
+                .onChange(of: inverted) { _ in
+                    imageModel.invert()
+                }
+                .padding()
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Close") {
+                            dismiss()
+                        }
                     }
-            }
-            .padding()
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Close") {
-                        isShowing = false
+                    if let image = imageModel.parsedImage {
+                        ToolbarItem(placement: .primaryAction) {
+                            ShareLink(item: image, preview: .init("ASCII Image"))
+                        }
                     }
                 }
-                ToolbarItem(placement: .primaryAction) {
-                    ShareLink(item: imageModel.drawImage(), preview: .init("ASCII Image"))
-                }
-            }
         }
         .interactiveDismissDisabled()
     }

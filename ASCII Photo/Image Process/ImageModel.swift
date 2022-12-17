@@ -17,6 +17,7 @@ final class ImageModel: ObservableObject {
     @Published private(set) var state: ImageState = .empty
     @Published private(set) var chosenImage: ChosenImage?
     @Published private(set) var parsedImageString = ""
+    @Published private(set) var parsedImage: GeneratedImage?
     @Published var viewfinderImage: Image?
     
     private var parser = ImageToGlyphsParser()
@@ -66,11 +67,12 @@ final class ImageModel: ObservableObject {
     func invert() {
         parser.invert()
         parsedImageString = parser.generateArtString()
+        drawImage()
     }
     
-    func drawImage() -> GeneratedImage {
+    func drawImage() {
         let uiImage = parser.drawImage(from: parsedImageString)
-        return GeneratedImage(uiImage: uiImage)
+        parsedImage = GeneratedImage(uiImage: uiImage)
     }
     
     private func set(chosenImage: ChosenImage) {

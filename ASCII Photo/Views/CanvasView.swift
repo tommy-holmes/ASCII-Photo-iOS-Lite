@@ -21,6 +21,7 @@ struct CanvasView: View {
                     do {
                         parsingImage = true
                         try imageModel.generateArt(with: .ascii)
+                        imageModel.drawImage()
                         parsingImage = false
                         showingGeneratedImage = true
                     } catch {
@@ -45,7 +46,7 @@ struct CanvasView: View {
         .disabled(parsingImage)
         .animation(.easeInOut(duration: 0.5), value: imageModel.chosenImage?.image)
         .sheet(isPresented: $showingGeneratedImage) {
-            GeneratedImageView(isShowing: $showingGeneratedImage)
+            GeneratedImageView()
         }
         .alert($parseError)
         .environmentObject(imageModel)

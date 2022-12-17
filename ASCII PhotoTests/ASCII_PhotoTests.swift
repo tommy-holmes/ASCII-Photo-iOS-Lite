@@ -67,7 +67,8 @@ final class ASCII_PhotoTests: XCTestCase {
         model.update(chosenImage: .init(cgImage: UIImage(named: "saturn.jpg")!.cgImage!))
         XCTAssertNotNil(model.chosenImage)
         try model.generateArt(with: .ascii)
-        XCTAssertNotNil(model.drawImage(), "Image not drawn")
+        model.drawImage()
+        XCTAssertNotNil(model.parsedImage, "Image not drawn")
     }
     
     func testUpdatePickerItemNoItem() {
@@ -107,11 +108,12 @@ final class ASCII_PhotoTests: XCTestCase {
         }
     }
 
-    func testPerformanceGenerateArt() {
+    func testPerformanceGenerateArtAndDrawImage() {
         let img = UIImage(named: "saturn.jpg")!.cgImage!
         model.update(chosenImage: .init(cgImage: img))
         measure {
             try! model.generateArt(with: .ascii)
+            model.drawImage()
         }
     }
 
