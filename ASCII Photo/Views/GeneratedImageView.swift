@@ -31,19 +31,19 @@ struct GeneratedImageView: View {
                         imageModel.invert()
                     }
             }
-                .padding()
-                .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button("Close") {
-                            dismiss()
-                        }
-                    }
-                    if let image = imageModel.parsedImage {
-                        ToolbarItem(placement: .primaryAction) {
-                            ShareLink(item: image, preview: .init("ASCII Image"))
-                        }
+            .padding()
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Close") {
+                        dismiss()
                     }
                 }
+                if let image = imageModel.parsedImage {
+                    ToolbarItem(placement: .primaryAction) {
+                        ShareLink(item: image, preview: .init("ASCII Image"))
+                    }
+                }
+            }
         }
         .interactiveDismissDisabled()
     }
