@@ -9,9 +9,7 @@ struct GeneratedImageView: View {
     
     var body: some View {
         NavigationStack {
-            imageModel.parsedImage?.image
-                .resizable()
-                .scaledToFit()
+            ImagePreviewView(uiImage: imageModel.parsedImage?.uiImage)
                 .contextMenu {
                     ShareLink("Copy Text", item: imageModel.parsedImageString)
                 }
