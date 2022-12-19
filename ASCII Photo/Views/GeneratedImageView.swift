@@ -17,7 +17,7 @@ struct GeneratedImageView: View {
             Spacer()
             
             VStack(spacing: 20) {
-                Picker("Scheme", selection: $imageModel.parserConfigs.perferredScheme) {
+                Picker("Colour Scheme", selection: $imageModel.parserConfigs.perferredScheme) {
                     Text("Light")
                         .tag(GlyphParserConfigs.Scheme.light)
                     

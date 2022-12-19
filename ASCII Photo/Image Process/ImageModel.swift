@@ -23,7 +23,7 @@ final class ImageModel: ObservableObject {
     @Published var parserConfigs = GlyphParserConfigs() {
         didSet {
             parser.configs = parserConfigs
-            parsedImage = GeneratedImage(uiImage: parser.drawImage(from: parsedImageString))
+            drawImage()
         }
     }
     
