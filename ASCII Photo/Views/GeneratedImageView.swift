@@ -16,10 +16,21 @@ struct GeneratedImageView: View {
             
             Spacer()
             
-            Toggle("Invert", isOn: $inverted)
-                .onChange(of: inverted) { _ in
-                    imageModel.invert()
+            VStack(spacing: 20) {
+                Picker("Scheme", selection: $imageModel.parserConfigs.perferredScheme) {
+                    Text("Light")
+                        .tag(GlyphParserConfigs.Scheme.light)
+                    
+                    Text("Dark")
+                        .tag(GlyphParserConfigs.Scheme.dark)
                 }
+                .pickerStyle(.menu)
+                
+                Toggle("Invert", isOn: $inverted)
+                    .onChange(of: inverted) { _ in
+                        imageModel.invert()
+                    }
+            }
                 .padding()
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {

@@ -122,6 +122,7 @@
 				A6A52444294112E50043BD08 /* ViewfinderView.swift */,
 				A6A52438293BC88C0043BD08 /* GeneratedImageView.swift */,
 				524BD588290D73520000B04B /* SelectedImageView.swift */,
+				A69175992950C4EC00ABE9D7 /* Representables */,
 				A6A5243F293E76F00043BD08 /* Modifiers */,
 			);
 			path = Views;
@@ -136,6 +137,14 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		A69175992950C4EC00ABE9D7 /* Representables */ = {
+			isa = PBXGroup;
+			children = (
+				A69175972950C17B00ABE9D7 /* ImagePreviewView.swift */,
+			);
+			path = Representables;
+			sourceTree = "<group>";
+		};
 		A6A5243C293E4CC80043BD08 /* Support */ = {
 			isa = PBXGroup;
 			children = (
@@ -148,7 +157,6 @@
 			isa = PBXGroup;
 			children = (
 				A6A5243D293E76790043BD08 /* AlertError.swift */,
-				A69175972950C17B00ABE9D7 /* ImagePreviewView.swift */,
 			);
 			path = Modifiers;
 			sourceTree = "<group>";

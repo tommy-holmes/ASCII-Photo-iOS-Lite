@@ -20,6 +20,13 @@ final class ImageModel: ObservableObject {
     @Published private(set) var parsedImage: GeneratedImage?
     @Published var viewfinderImage: Image?
     
+    @Published var parserConfigs = GlyphParserConfigs() {
+        didSet {
+            parser.configs = parserConfigs
+            parsedImage = GeneratedImage(uiImage: parser.drawImage(from: parsedImageString))
+        }
+    }
+    
     private var parser = ImageToGlyphsParser()
     
     let camera = Camera()
