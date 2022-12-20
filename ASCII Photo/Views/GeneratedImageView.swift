@@ -10,6 +10,8 @@ struct GeneratedImageView: View {
     var body: some View {
         NavigationStack {
             ImagePreviewView(uiImage: imageModel.parsedImage?.uiImage)
+                .clipShape(RoundedRectangle(cornerRadius: 5))
+                .padding()
                 .contextMenu {
                     ShareLink("Copy Text", item: imageModel.parsedImageString)
                 }

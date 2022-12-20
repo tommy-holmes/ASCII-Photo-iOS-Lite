@@ -25,12 +25,15 @@ private extension ImagePreviewView {
         
         func makeUIView(context: Context) -> UIScrollView {
             let sv = UIScrollView()
+            
             sv.isDirectionalLockEnabled = false
             sv.showsHorizontalScrollIndicator = false
             sv.showsVerticalScrollIndicator = false
             sv.minimumZoomScale = 1
-            sv.maximumZoomScale = uiImage?.size.width ?? 10
+            sv.maximumZoomScale = 10
+            sv.backgroundColor = .secondarySystemBackground
             sv.addSubview(imageView)
+            imageView.contentMode = .scaleAspectFit
             sv.delegate = context.coordinator
             
             return sv
@@ -39,6 +42,11 @@ private extension ImagePreviewView {
         func updateUIView(_ uiView: UIScrollView, context: Context) {
             let imageView = uiView.subviews.first(where: { $0 is UIImageView }) as? UIImageView
             imageView?.image = uiImage
+        }
+        
+        func sizeThatFits(_ proposal: ProposedViewSize, uiView: UIScrollView, context: Context) -> CGSize? {
+            imageView.frame = uiView.frame
+            return nil
         }
     }
 }
