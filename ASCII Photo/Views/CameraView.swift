@@ -44,6 +44,7 @@ struct CameraView: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {
                         isPresented = false
+                        model.camera.stop()
                     } label: {
                         Text("Close")
                             .foregroundColor(.yellow)

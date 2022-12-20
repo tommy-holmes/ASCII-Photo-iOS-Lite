@@ -4,12 +4,12 @@ struct ImagePreviewView: View {
     var uiImage: UIImage?
     
     var body: some View {
-        Representatble(uiImage: uiImage)
+        Representable(uiImage: uiImage)
     }
 }
 
 private extension ImagePreviewView {
-    struct Representatble: UIViewRepresentable {
+    struct Representable: UIViewRepresentable {
         let uiImage: UIImage?
         
         private var imageView: UIImageView
@@ -51,7 +51,7 @@ private extension ImagePreviewView {
     }
 }
 
-private extension ImagePreviewView.Representatble {
+private extension ImagePreviewView.Representable {
     final class Coordinator: NSObject, UIScrollViewDelegate {
         let image: UIImageView
         
