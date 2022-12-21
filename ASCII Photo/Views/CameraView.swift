@@ -53,7 +53,7 @@ struct CameraView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .ignoresSafeArea()
-            .statusBarHidden(true)
+            .statusBarHidden()
         }
     }
     
