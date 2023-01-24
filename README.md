@@ -18,7 +18,7 @@ A watered down version of my ASCII Photo iOS app. I intend to use this project t
 - [x] Generated art inversion
 - [x] Light and dark mode support
 - [x] Convert generated art to an actual image
-- [ ] Better UI and UX for art preview
+- [x] Better UI and UX for art preview
 
 ## Demo output
 ### Saturn in ASCII
