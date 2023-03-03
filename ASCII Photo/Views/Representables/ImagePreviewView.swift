@@ -8,6 +8,12 @@ struct ImagePreviewView: View {
     }
 }
 
+struct ImagePreviewView_Previews: PreviewProvider {
+    static var previews: some View {
+        ImagePreviewView(uiImage: .init(systemName: "rectangle.portrait.and.arrow.forward.fill")!)
+    }
+}
+
 private extension ImagePreviewView {
     struct Representable: UIViewRepresentable {
         let uiImage: UIImage?
